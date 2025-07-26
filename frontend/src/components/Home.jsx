@@ -1,0 +1,39 @@
+import img from "../assets/react.svg"
+
+function Home(){
+    return(
+        <div className="container">
+            <div className="row">
+                <div className="col">
+                    <h1>MiniProjects</h1>
+                    <p>Esta pagina muestra pequeños mini proyectos de practica personales... Sus funciones principales es el uso y practica del lenguaje
+                        de programacion Java, sus librerias y otras implementaciones como estructura de datos y patrones de diseño.
+                    </p>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6">
+                    <div class="card text-bg-dark">
+                        <img src={img} class="card-img" alt="..."/>
+                        <div class="card-img-overlay">
+                            <h5 class="card-title">Musicplayer</h5>
+                            <p class="card-text">Reproductor de musica.</p>
+                            <p class="card-text"><small>Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div class="card text-bg-dark">
+                        <img src={img} class="card-img" alt="..."/>
+                        <div class="card-img-overlay">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small>Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+export default Home
