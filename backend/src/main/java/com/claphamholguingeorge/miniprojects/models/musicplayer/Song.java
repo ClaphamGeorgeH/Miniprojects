@@ -8,10 +8,10 @@ public class Song {
     public Song() {
     }
 
-    public Song(String name, Integer duration, String band, String fileLocation) {
+    public Song(String name, Integer duration, Album album, String fileLocation) {
         this.name = name;
         this.duration = duration;
-        this.band = band;
+        this.album = album;
         this.fileLocation = fileLocation;
     }
 
@@ -25,19 +25,21 @@ public class Song {
     @Column
     private Integer duration;
 
-    @Column
-    private String band;
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    private Album album;
 
-    @Column
+    @Column(name = "file_location")
     private String fileLocation;
+
 
     public String getFileLocation() { return fileLocation; }
 
     public void setFileLocation(String fileLocation) { this.fileLocation = fileLocation; }
 
-    public String getBand() { return band; }
+    public Album getAlbum() { return album; }
 
-    public void setBand(String band) { this.band = band; }
+    public void setAlbum(Album album) { this.album = album; }
 
     public Long getId() {
         return id;

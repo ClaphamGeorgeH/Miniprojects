@@ -20,9 +20,13 @@ public class MusicPlayerController {
 
 
     @GetMapping("/")
-    public LinkedList<Song> musicplayer( ) throws SQLException {
-        LinkedList<Song> playlist = songRepository
-    }
+    public void musicplayer( ) throws SQLException {
+        LinkedList<Song> playlist = new LinkedList<>();
+        playlist.addAll(songRepository.findAll());
+        for ( Song song :playlist){
 
+        }
+
+    }
 
 }
