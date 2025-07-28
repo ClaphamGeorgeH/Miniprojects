@@ -1,8 +1,11 @@
 #bandImageColumn{
-    align-items: right;
+    align-items: center;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
-
+#MusicPlayerContainer{
+    border-radius: 1%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
