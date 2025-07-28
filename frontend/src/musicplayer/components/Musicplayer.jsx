@@ -1,21 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import img from '../../assets/react.svg'
 import './css/Musicplayer.css'
 
 
 function Musicplayer(){
 
+const [musicData, setMusicData] = useState([]);
+const [currentSong, setCurrentSong] = useState(null);
+
+
 useEffect(() => {
     fetch('http://localhost:8080/api/musicplayer/')
-  .then(response => {
-    // Check if the request was successful (status code 200-299)
+  .then(response => {  
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return response.json();
   })
   .then(data => {
-    // Handle the fetched data
-    console.log(data);
+    console.log(data)
+    setMusicData(data);
+    setCurrentSong(data[0]); // Set the first song as the current song
   })
   .catch(error => {
     // Handle any errors that occurred during the fetch operation (e.g., network issues)
@@ -34,12 +39,12 @@ return(
         </div>
         <div className="row align-items-center">
             <div className="col-3" id="bandImageColumn">
-                <img src={img} alt="" />
+                <img src={`http://localhost:8080/${musicData.length > 0 ? currentSong.album.band.imageLocation : img}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
             <div className="col-6" id="bandInfoColumn">
-                <h1 id="bandSongName">tittle</h1>
-                <h4 id="bandName">Band</h4>
-                <h6 id="bandAlbumName">Album</h6>
+                        <h1 id="bandSongName">{musicData.length > 0 ? currentSong.name : <span>Loading...</span>}</h1>
+                        <h4 id="bandName">{musicData.length > 0 ? currentSong.album.band.name : <span>Loading...</span>}</h4>
+                        <h6 id="bandAlbumName">{musicData.length > 0 ? currentSong.album.name : <span>Loading...</span>}</h6>
             </div>
         </div>
         <div className='row justify-content-center'>
