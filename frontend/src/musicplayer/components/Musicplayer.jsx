@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
+import MaterialIcon from 'material-icons-react';
 import img from '../../assets/react.svg'
 import './css/Musicplayer.css'
-
 
 function Musicplayer(){
 
@@ -92,10 +92,12 @@ return(
 
             <div className='row'>
                 <div className='col text-center'>
-                    <button onClick={handlePrev} disabled={musicData.length === 0}>PREV</button>
-                    <button onClick={handlePlay} disabled={!currentSong}>PLAY</button>
-                    <button onClick={handlePause}>PAUSE</button>
-                    <button onClick={handleNext} disabled={musicData.length === 0}>NEXT</button>
+                    <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
+                        <button onClick={handlePrev} type="button" class="btn btn-outline-primary"><MaterialIcon icon="skip_previous" /></button>
+                        <button onClick={handlePlay} type="button" class="btn btn-outline-primary"><MaterialIcon icon="play_arrow" /></button>
+                        <button onClick={handlePause} type="button" class="btn btn-outline-primary"><MaterialIcon icon="pause" /></button>
+                        <button onClick={handleNext} type="button" class="btn btn-outline-primary"><MaterialIcon icon="skip_next" /></button>
+                    </div>
                 </div>
             </div>
         </div>
