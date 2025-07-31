@@ -7,6 +7,6 @@ INSERT INTO Band (name, image_location) VALUES ('Oleg Mazur', 'images/oleg-mazur
 INSERT INTO Album (name, band_id, realize_date, image_location) VALUES ('Captured Live', 1, DATE '1976-03-01','./assets');
 INSERT INTO Album (name, band_id, realize_date, image_location) VALUES ('Free music', 2, DATE '2025-01-01','./assets');
 
-INSERT INTO Song (name, duration, album_id, file_location) VALUES ('One Love',60,1,'assets/music/Lucky-Dube-One-Love.mp3');
-INSERT INTO Song (name, duration, album_id, file_location) VALUES ('Movie Trailer',60,2,'assets/music/movie_trailer.mp3');
+INSERT INTO Song (name, duration, album_id, file_location) VALUES ('One Love',60,1,'audios/Lucky-Dube-One-Love.mp3');
+INSERT INTO Song (name, duration, album_id, file_location) VALUES ('Movie Trailer',60,2,'audios/movie_trailer.mp3');
 
