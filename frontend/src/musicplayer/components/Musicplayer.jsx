@@ -7,6 +7,9 @@ function Musicplayer(){
 
 const [musicData, setMusicData] = useState([]);
 const [currentSong, setCurrentSong] = useState(null);
+const [isPlaying, setIsPlaying] = useState(false);
+const [currentTime, setCurrentTime] = useState(0);
+const [duration, setDuration] = useState(0);
 
 const audioRef = useRef(null)
 
@@ -22,7 +25,14 @@ useEffect(() => {
   .then(data => {
     console.log(data)
     setMusicData(data);
-    setCurrentSong(data[0]); // Set the first song as the current song
+    setCurrentSong(data[0]);
+    const interval = setInterval(() => {
+     console.log(audioRef.current.currentTime);
+     console.log(currentTime);
+     setCurrentTime(audioRef.current.currentTime);
+     setDuration(audioRef.current.duration);
+    }, 1000);
+    return () => clearInterval(interval);
   })
   .catch(error => {
     // Handle any errors that occurred during the fetch operation (e.g., network issues)
@@ -78,7 +88,8 @@ return(
             <br />
             <div className='row justify-content-center'>
                 <div className='col-2 text-end' id="songTimeColumn">
-                    00:00
+                    {String(Math.floor((currentSong ? currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
+                    {String(Math.floor((currentSong ? currentTime : 0).toFixed(2))%60).padStart(2, '0')}
                 </div>
                 <div className='col-8 text-center' id="songProgressBarColumn">
                     <div className="progress">
@@ -86,7 +97,8 @@ return(
                     </div>
                 </div>
                 <div className='col-2 text-start' id="songTimeLeftColumn">
-                    00:00
+                    {String(Math.floor((currentSong ? duration - currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
+                    {String(Math.floor((currentSong ? duration - currentTime : 0).toFixed(2))%60).padStart(2, '0')}
                 </div>
             </div>
 
