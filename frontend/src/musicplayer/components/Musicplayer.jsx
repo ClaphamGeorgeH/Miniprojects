@@ -13,7 +13,6 @@ const [duration, setDuration] = useState(0);
 
 const audioRef = useRef(null)
 
-
 useEffect(() => {
     fetch('http://localhost:8080/api/musicplayer/')
   .then(response => {  
@@ -27,8 +26,6 @@ useEffect(() => {
     setMusicData(data);
     setCurrentSong(data[0]);
     const interval = setInterval(() => {
-     console.log(audioRef.current.currentTime);
-     console.log(currentTime);
      setCurrentTime(audioRef.current.currentTime);
      setDuration(audioRef.current.duration);
     }, 1000);
@@ -88,30 +85,36 @@ return(
             <br />
             <div className='row justify-content-center'>
                 <div className='col-2 text-end' id="songTimeColumn">
-                    {String(Math.floor((currentSong ? currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
-                    {String(Math.floor((currentSong ? currentTime : 0).toFixed(2))%60).padStart(2, '0')}
+                    {String(Math.floor((currentSong ? audioRef.current.currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
+                    {String(Math.floor((currentSong ? audioRef.current.currentTime : 0).toFixed(2))%60).padStart(2, '0')}
                 </div>
                 <div className='col-8 text-center' id="songProgressBarColumn">
                     <div className="progress">
-                        <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: '75%' }}>75%</div>
+                        <input type="range" style={{ height: '1rem' }} className="form-range" min="0" max={duration} step="0.5" id="customRange3" value={currentTime} 
+                        onChange={(e) => {
+                            currentSong && (setCurrentTime(e.target.value),
+                            audioRef.current.currentTime = e.target.value);
+                        }}/>
                     </div>
                 </div>
                 <div className='col-2 text-start' id="songTimeLeftColumn">
-                    {String(Math.floor((currentSong ? duration - currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
-                    {String(Math.floor((currentSong ? duration - currentTime : 0).toFixed(2))%60).padStart(2, '0')}
+                    {String(Math.floor((currentSong ? duration - audioRef.current.currentTime : 0).toFixed(2)/60)).padStart(2, '0')}:
+                    {String(Math.floor((currentSong ? duration - audioRef.current.currentTime : 0).toFixed(2))%60).padStart(2, '0')}
                 </div>
             </div>
 
             <div className='row'>
                 <div className='col text-center'>
-                    <div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
-                        <button onClick={handlePrev} type="button" class="btn btn-outline-primary"><MaterialIcon icon="skip_previous" /></button>
-                        <button onClick={handlePlay} type="button" class="btn btn-outline-primary"><MaterialIcon icon="play_arrow" /></button>
-                        <button onClick={handlePause} type="button" class="btn btn-outline-primary"><MaterialIcon icon="pause" /></button>
-                        <button onClick={handleNext} type="button" class="btn btn-outline-primary"><MaterialIcon icon="skip_next" /></button>
+                    <div className="btn-group btn-group-lg" role="group" aria-label="Large button group">
+                        <button onClick={handlePrev} type="button" className="btn btn-outline-primary"><MaterialIcon icon="skip_previous" /></button>
+                        <button onClick={handlePlay} type="button" className="btn btn-outline-primary"><MaterialIcon icon="play_arrow" /></button>
+                        <button onClick={handlePause} type="button" className="btn btn-outline-primary"><MaterialIcon icon="pause" /></button>
+                        <button onClick={handleNext} type="button" className="btn btn-outline-primary"><MaterialIcon icon="skip_next" /></button>
                     </div>
                 </div>
             </div>
+
+            <span><i><MaterialIcon icon="volume_up"/></i><input type="range" className="form-range" min="0" max="5" step="0.5" id="customRange3" style={{width: '90%'}}/></span>
         </div>
     </>
 )
