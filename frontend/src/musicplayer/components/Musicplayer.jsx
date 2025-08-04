@@ -19,6 +19,7 @@ useEffect(() => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    console.log(response);
     return response.json();
   })
   .then(data => {
@@ -28,8 +29,15 @@ useEffect(() => {
     const interval = setInterval(() => {
      setCurrentTime(audioRef.current.currentTime);
      setDuration(audioRef.current.duration);
+     console.log("Current time:", audioRef.current.currentTime);
+     if (audioRef.current.ended) {
+        console.log("Song ended, moving to next song");
+        console.log(audioRef.current);
+     }
     }, 1000);
-    return () => clearInterval(interval);
+    return () => {
+        console.log("Cleaning up interval");
+        clearInterval(interval);}
   })
   .catch(error => {
     // Handle any errors that occurred during the fetch operation (e.g., network issues)
@@ -74,12 +82,12 @@ return(
     
             <div className="row justify-content-center">
                 <div className="col-12 col-md-6" id="bandImageColumn">
-                    <img src={`http://localhost:8080/${musicData.length > 0 ? currentSong.album.band.imageLocation : img}`} alt="" style={{ maxWidth: '250px', height: 'auto', objectFit: 'contain' }} />
+                    <img src={`http://localhost:8080/${currentSong ? currentSong.album.band.imageLocation : img}`} alt="" style={{ maxWidth: '250px', height: 'auto', objectFit: 'contain' }} />
                 </div>
                 <div className="col-12 col-md-6" id="bandInfoColumn">
-                            <h1 className ="text-body-emphasis" id="bandSongName">{musicData.length > 0 ? currentSong.name : <span>Loading...</span>}</h1>
-                            <h4 className ="text-dark-emphasis" id="bandName">{musicData.length > 0 ? currentSong.album.band.name : <span>Loading...</span>}</h4>
-                            <h6 className ="text-body-secondary" id="bandAlbumName">{musicData.length > 0 ? currentSong.album.name : <span>Loading...</span>}</h6>
+                            <h1 className ="text-body-emphasis" id="bandSongName">{currentSong ? currentSong.name : <span>Loading...</span>}</h1>
+                            <h4 className ="text-dark-emphasis" id="bandName">{currentSong ? currentSong.album.band.name : <span>Loading...</span>}</h4>
+                            <h6 className ="text-body-secondary" id="bandAlbumName">{currentSong ? currentSong.album.name : <span>Loading...</span>}</h6>
                 </div>
             </div>
             <br />
@@ -113,8 +121,25 @@ return(
                     </div>
                 </div>
             </div>
-
-            <span><i><MaterialIcon icon="volume_up"/></i><input type="range" className="form-range" min="0" max="5" step="0.5" id="customRange3" style={{width: '90%'}}/></span>
+            <div className='row justify-content-center'>
+                <div className='col-1' id="volumeColumn">
+                    <MaterialIcon icon="volume_up" id= "volumeIcon"
+                    onMouseEnter={() => {
+                        document.getElementById("volumeColumn").style.cursor = "pointer";
+                    }}
+                    onClick={() => {
+                        audioRef.current.muted = !audioRef.current.muted;
+                        audioRef.current.muted ? document.getElementById("volumeIcon").innerHTML = "volume_off" : document.getElementById("volumeIcon").innerHTML = "volume_up";
+                    }}
+                    />
+                </div>
+                <div className='col-11' id="volumeBarColumn">
+                    <input type="range" className="form-range" min="0" max="1" step="0.02" 
+                    onChange={(e) => {
+                        audioRef.current.volume = e.target.value;
+                    }} />
+                </div>
+            </div>
         </div>
     </>
 )
